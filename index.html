@@ -5,7 +5,31 @@
     <script src="app.js" defer></script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Backlog Tracker</title>
   </head>
-  <body></body>
+  <body>
+    <header>
+      <h1>Backlog Tracker</h1>
+      <form id="submit-form">
+        <label for="name-input">Game name:</label>
+        <input type="text" name="name-input" id="name-input" />
+        <!-- <label for="priority-input">Priority</label>
+        <input
+          type="number"
+          value="1"
+          name="priority-input"
+          id="priority-input"
+        /> -->
+        <input type="submit" value="Add game" />
+      </form>
+      <input type="checkbox" name="show-finished" id="show-finished" />
+      <label for="show-finished">Show finished games</label>
+      <label for="sort">Sort by:</label>
+      <select name="sort" id="sort">
+        <option value="desc">Descending</option>
+        <option value="asc">Ascending</option>
+      </select>
+    </header>
+    <main id="list-container"></main>
+  </body>
 </html>

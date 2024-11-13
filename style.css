@@ -1,0 +1,19 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+#list-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.game-container {
+  display: flex;
+  gap: 10px;
+}
+
+.finished {
+  background-color: lightgray;
+}
