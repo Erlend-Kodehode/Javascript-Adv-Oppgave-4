@@ -17,3 +17,11 @@
 .finished {
   background-color: lightgray;
 }
+
+.game-container input:first-of-type {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: textfield;
+  flex-shrink: 1;
+  max-width: 1em;
+}
