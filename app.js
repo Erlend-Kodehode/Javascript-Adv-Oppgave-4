@@ -2,26 +2,25 @@ const form = document.querySelector("#submit-form");
 const nameInput = document.querySelector("#name-input");
 const showFinished = document.querySelector("#show-finished");
 const sort = document.querySelector("#sort");
-// const priorityInput = document.querySelector("#priority-input");
 const listContainer = document.querySelector("#list-container");
 
-let gameArr = [];
+let mediaArr = [];
 let idNum = 0;
 
-const storedArr = localStorage.getItem("gameArr");
+const storedArr = localStorage.getItem("mediaArr");
 if (storedArr) {
   showFinished.checked = localStorage.getItem("showFinished") === "true";
   sort.value = localStorage.getItem("sort");
-  gameArr = JSON.parse(storedArr);
-  idNum = parseInt(localStorage.getItem("gameId"));
+  mediaArr = JSON.parse(storedArr);
+  idNum = parseInt(localStorage.getItem("mediaId"));
   saveAndRender();
 }
 
 form.addEventListener("submit", (e) => {
   e.preventDefault();
   const formdata = new FormData(form);
-  gameArr.forEach((e) => e.priority++);
-  gameArr.push({
+  mediaArr.forEach((e) => e.priority++);
+  mediaArr.push({
     name: formdata.get("name-input"),
     priority: 1,
     id: idNum++,
@@ -35,18 +34,18 @@ showFinished.addEventListener("change", saveAndRender);
 sort.addEventListener("change", saveAndRender);
 
 function saveAndRender() {
-  if (gameArr.length > 0) {
+  if (mediaArr.length > 0) {
     localStorage.setItem("showFinished", showFinished.checked);
     localStorage.setItem("sort", sort.value);
-    localStorage.setItem("gameArr", JSON.stringify(gameArr));
-    localStorage.setItem("gameId", idNum);
+    localStorage.setItem("mediaArr", JSON.stringify(mediaArr));
+    localStorage.setItem("mediaId", idNum);
   } else {
     localStorage.removeItem("showFinished");
     localStorage.removeItem("sort");
-    localStorage.removeItem("gameArr");
-    localStorage.removeItem("gameId");
+    localStorage.removeItem("mediaArr");
+    localStorage.removeItem("mediaId");
   }
-  generateList(sortAndFilter(gameArr));
+  generateList(sortAndFilter(mediaArr));
 }
 
 function sortAndFilter(arr) {
@@ -66,84 +65,88 @@ function sortAndFilter(arr) {
 function updateOrder(priority, id) {
   let biggestNum = 0;
   const priorityNum = parseInt(priority);
-  gameArr.forEach((e) => {
+  mediaArr.forEach((e) => {
     if (e.priority > biggestNum) biggestNum = e.priority;
-    if (priorityNum === e.priority) e.priority = gameArr[id].priority;
+    if (priorityNum === e.priority) e.priority = mediaArr[id].priority;
   });
   if (priorityNum > 0 && priorityNum <= biggestNum)
-    gameArr[id].priority = priorityNum;
+    mediaArr[id].priority = priorityNum;
   saveAndRender();
 }
 
 function generateList(arr) {
   while (listContainer.firstChild) listContainer.firstChild.remove();
-  arr.forEach((game) => {
-    const gameContainer = document.createElement("div");
-    gameContainer.classList.add("game-container");
+  arr.forEach((media) => {
+    const mediaContainer = document.createElement("div");
+    mediaContainer.classList.add("media-container");
 
-    const gamePriority = document.createElement("input");
-    gamePriority.type = "number";
-    gamePriority.value = game.priority;
-    gamePriority.addEventListener("change", () =>
-      updateOrder(gamePriority.value, game.id)
-    );
+    const leftContainer = document.createElement("div");
+    leftContainer.classList.add("container");
 
-    const gameName = document.createElement("p");
-    gameName.textContent = game.name;
-
-    const gameFinished = document.createElement("input");
-    gameFinished.type = "checkbox";
-    gameFinished.checked = game.finished;
-    if (game.finished) gameContainer.classList.add("finished");
-    gameFinished.addEventListener("change", () => {
-      gameArr[game.id].finished = gameFinished.checked;
-      if (gameFinished.checked) {
-        gameArr.forEach((e) => {
-          if (e.priority > game.priority) {
-            e.priority--;
-          }
+    const mediaFinished = document.createElement("input");
+    mediaFinished.type = "checkbox";
+    mediaFinished.checked = media.finished;
+    mediaFinished.classList.add("pointer");
+    if (media.finished) mediaContainer.classList.add("finished");
+    mediaFinished.addEventListener("change", () => {
+      mediaArr[media.id].finished = mediaFinished.checked;
+      if (mediaFinished.checked) {
+        mediaArr.forEach((e) => {
+          if (e.priority > media.priority) e.priority--;
         });
-        game.priority = gameArr.length;
+        media.priority = mediaArr.length;
       }
       saveAndRender();
     });
 
-    const gameDelete = document.createElement("button");
-    gameDelete.textContent = "Delete";
-    gameDelete.addEventListener("click", () => {
-      gameArr.forEach((e) => {
-        if (e.id > game.id) e.id--;
-        if (e.priority > game.priority) e.priority--;
+    const mediaPriority = document.createElement("input");
+    mediaPriority.type = "number";
+    mediaPriority.value = media.priority;
+    mediaPriority.addEventListener("change", () =>
+      updateOrder(mediaPriority.value, media.id)
+    );
+
+    const mediaName = document.createElement("p");
+    mediaName.textContent = media.name;
+
+    const rightContainer = document.createElement("div");
+    rightContainer.classList.add("container");
+
+    const mediaDelete = document.createElement("button");
+    mediaDelete.textContent = "Delete";
+    mediaDelete.classList.add("pointer");
+    mediaDelete.addEventListener("click", () => {
+      mediaArr.forEach((e) => {
+        if (e.id > media.id) e.id--;
+        if (e.priority > media.priority) e.priority--;
       });
       idNum--;
-      gameArr.splice(game.id, 1);
+      mediaArr.splice(media.id, 1);
       saveAndRender();
     });
 
     const arrowContainer = document.createElement("div");
     const upArrow = document.createElement("button");
-    upArrow.textContent = "↑";
+    upArrow.textContent = "\u2B9D";
+    upArrow.classList.add("pointer");
     upArrow.addEventListener("click", () => {
-      gamePriority.value =
-        sort.value === "asc" ? game.priority + 1 : game.priority - 1;
-      updateOrder(gamePriority.value, game.id);
+      mediaPriority.value =
+        sort.value === "asc" ? media.priority + 1 : media.priority - 1;
+      updateOrder(mediaPriority.value, media.id);
     });
     const downArrow = document.createElement("button");
-    downArrow.textContent = "↓";
+    downArrow.textContent = "\u2B9F";
+    downArrow.classList.add("pointer");
     downArrow.addEventListener("click", () => {
-      gamePriority.value =
-        sort.value === "asc" ? game.priority - 1 : game.priority + 1;
-      updateOrder(gamePriority.value, game.id);
+      mediaPriority.value =
+        sort.value === "asc" ? media.priority - 1 : media.priority + 1;
+      updateOrder(mediaPriority.value, media.id);
     });
 
-    listContainer.prepend(gameContainer);
     arrowContainer.append(upArrow, downArrow);
-    gameContainer.append(
-      gamePriority,
-      gameName,
-      gameFinished,
-      gameDelete,
-      arrowContainer
-    );
+    rightContainer.append(mediaDelete, arrowContainer);
+    leftContainer.append(mediaPriority, mediaFinished);
+    mediaContainer.append(leftContainer, mediaName, rightContainer);
+    listContainer.prepend(mediaContainer);
   });
 }

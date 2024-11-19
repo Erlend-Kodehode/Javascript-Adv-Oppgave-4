@@ -4,24 +4,128 @@
   box-sizing: border-box;
 }
 
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: seashell;
+}
+
+header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  background-color: crimson;
+  color: lavenderblush;
+  width: 55%;
+  border-radius: 10px;
+  margin: 1rem;
+  padding: 1rem;
+}
+
 #list-container {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  margin: 10px;
+  gap: 5px;
+  width: 100%;
 }
 
-.game-container {
+.media-container {
   display: flex;
   gap: 10px;
+  border: 2px rgb(225, 234, 243) solid;
+  border-radius: 10px;
+  padding: 5px;
+  background-color: ghostwhite;
+  width: 50%;
+  align-items: center;
+  justify-content: space-between;
 }
 
+.media-container input:first-of-type {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: textfield;
+  max-width: 1.2em;
+  text-align: center;
+  border-radius: 3px;
+  border: 2px solid rgb(227, 227, 227);
+}
+
+.container {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.container > div {
+  display: flex;
+  flex-direction: column;
+  width: 2em;
+  gap: 5px;
+}
+.container > div > button {
+  border: none;
+  background-color: lightblue;
+  border-radius: 5px;
+}
+
+.container > div > button:hover {
+  background-color: rgb(153, 179, 188);
+}
+
+.container > button {
+  border: none;
+  background-color: crimson;
+  color: lavenderblush;
+  border-radius: 5px;
+  padding: 0.5em;
+}
+.container > button:hover {
+  background-color: rgb(164, 29, 56);
+}
 .finished {
   background-color: lightgray;
 }
 
-.game-container input:first-of-type {
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: textfield;
-  flex-shrink: 1;
-  max-width: 1em;
+header > div {
+  display: flex;
+  gap: 50px;
+}
+
+header > div > div {
+  display: flex;
+  gap: 5px;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+#submit-form > input:last-of-type {
+  border: none;
+  /* background-color: rgb(28, 181, 28); */
+  background-color: darkcyan;
+  padding: 0.3em;
+  color: lavenderblush;
+  border-radius: 5px;
+}
+
+#submit-form > input:last-of-type:hover {
+  background-color: rgb(2, 109, 109);
+}
+
+#sort {
+  border: none;
+  padding: 0.2em;
+  border-radius: 5px;
+  background-color: rgb(150, 11, 11);
+  color: lavenderblush;
+}
+
+#sort:hover {
+  background-color: rgb(100, 11, 11);
 }
