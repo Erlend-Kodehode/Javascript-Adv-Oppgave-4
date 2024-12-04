@@ -21,11 +21,14 @@ if (storedArr) {
 form.addEventListener("submit", (e) => {
   e.preventDefault();
   const formdata = new FormData(form);
+  const userInput = formdata.get("name-input");
+  //returns to prevent empty list items
+  if (!userInput) return;
   //adds one to priority to all existing media so new media is always displayed on top
   mediaArr.forEach((media) => media.priority++);
   //adds a new media to the array
   mediaArr.push({
-    name: formdata.get("name-input"),
+    name: userInput,
     //priority dictates display order
     priority: 1,
     //unique id that matches the entry's index to keep track of the media entry
