@@ -7,6 +7,8 @@ const listContainer = document.querySelector("#list-container");
 let mediaArr = [];
 let idNum = 0;
 
+let dragOriginId = 0;
+
 // loads items from storage on page load
 const storedArr = localStorage.getItem("mediaArr");
 if (storedArr) {
@@ -93,6 +95,9 @@ function updateOrder(priority, id) {
   saveAndRender();
 }
 
+//prevents the cursor chaning to a stop sign when dragging an element
+window.addEventListener("dragover", (e) => e.preventDefault());
+
 //generates the list
 function generateList(arr) {
   //removes all previous entries
@@ -101,6 +106,19 @@ function generateList(arr) {
     //main container
     const mediaContainer = document.createElement("div");
     mediaContainer.classList.add("media-container");
+
+    //makes the element draggable and saves the id of the dragged element
+    mediaContainer.draggable = true;
+    mediaContainer.addEventListener(
+      "dragstart",
+      () => (dragOriginId = media.id)
+    );
+
+    //when an element gets dragged over it swaps it's priority with the dragged element
+    mediaContainer.addEventListener("dragenter", () => {
+      if (media.id === dragOriginId) return;
+      updateOrder(media.priority, dragOriginId);
+    });
 
     //div for styling
     const leftContainer = document.createElement("div");
