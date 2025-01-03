@@ -82,16 +82,18 @@ function sortAndFilter(arr) {
 function updateOrder(priority, id) {
   let biggestNum = 0;
   //parses int since the value of a number-input is sometimes randomly given as a string
-  const priorityNum = parseInt(priority);
+  let priorityNum = parseInt(priority);
+  //finds the highest priority
   mediaArr.forEach((e) => {
-    //finds the highest priority
     if (e.priority > biggestNum) biggestNum = e.priority;
+  });
+  if (priorityNum > biggestNum) priorityNum = biggestNum;
+  mediaArr.forEach((e) => {
     //swaps the priorities of the element that has the same priority as the user set the current element to
     if (priorityNum === e.priority) e.priority = mediaArr[id].priority;
   });
   //updates the current elements priority as long as it is inbounds of the list
-  if (priorityNum > 0 && priorityNum <= biggestNum)
-    mediaArr[id].priority = priorityNum;
+  if (priorityNum > 0) mediaArr[id].priority = priorityNum;
   saveAndRender();
 }
 
